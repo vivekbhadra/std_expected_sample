@@ -1,12 +1,12 @@
+#include <expected>
 #include <iostream>
-#include <optional>
 #include <string>
 #include <unordered_map>
 
 class PersonDir
 {
   public:
-    std::optional<int> lookup(const std::string &key) const noexcept
+    [[nodiscard]] std::expected<int, std::string> lookup(const std::string &key) const noexcept
     {
         auto itr = my_store.find(key);
         if (itr != my_store.end())
@@ -14,7 +14,7 @@ class PersonDir
             return itr->second;
         }
 
-        return std::nullopt;
+        return std::unexpected(std::string{ "Key Not Found" });
     }
 
   private:
@@ -31,7 +31,7 @@ int main()
     }
     else
     {
-        std::cout << "Key wasn't found in the database\n";
+        std::cout << result.error() << "\n";
     }
 
     return 0;

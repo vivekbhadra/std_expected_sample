@@ -1,20 +1,17 @@
 #include <iostream>
-#include <optional>
 #include <string>
 #include <unordered_map>
 
 class PersonDir
 {
   public:
-    std::optional<int> lookup(const std::string &key) const noexcept
+    int lookup(const std::string &key) const noexcept
     {
         auto itr = my_store.find(key);
         if (itr != my_store.end())
         {
             return itr->second;
         }
-
-        return std::nullopt;
     }
 
   private:
@@ -24,15 +21,8 @@ class PersonDir
 int main()
 {
     PersonDir dir;
-    auto result = dir.lookup("Pratik");
-    if (result.has_value())
-    {
-        std::cout << "Key was found in the database and the value is " << *result << "\n";
-    }
-    else
-    {
-        std::cout << "Key wasn't found in the database\n";
-    }
+    auto age = dir.lookup("Pratik");
+    std::cout << "The key was found and the value stored is = " << age << "\n";
 
     return 0;
 }
